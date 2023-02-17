@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Calculator</title>
+        
+    </head>
+    <style>
+        body{
+            background-color: grey;
+            user-select: none; 
+        }
+        .container{     
+            display: grid;
+            grid-template-columns:1fr 1fr 1fr 1fr ;
+            grid-gap: 4px;
+            background-color: rgba(32, 31, 30, 0.993);
+            padding: 4px;
+            border-radius: 5px;
+            max-width: 360px;
+            font-family: "Tahoma";
+        }
+        .item{
+            background-color: rgb(0, 0, 0);
+            color: rgb(255, 255, 255);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 22px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        form{
+            max-width: 100%;
+        }
+        input{
+            width: 100%;
+            height: 60px;
+            border: none;
+            font-size: 30px;
+            outline: none;
+            text-align: right;
+        }
+        .input{
+            text-align: right;
+            font-size: 30px;
+            height: 60px;
+            grid-column: 1/-1;
+            
+        }
+        .clean{
+            
+            background-color: rgb(52, 52, 53);
+        }
+        
+        .equal{
+            
+            background-color: rgb(158, 27, 27);
+        }
+        
+    </style>
+    <body >
+        <div class="container">
+            <div class="item input" ><form name="form"><input onkeydown="return checkPhoneKey(event.key)" autofocus type="text" name="textview" ></form></div>
+            <div class="item clean" onclick="clean()">AC</div>
+            <div class="item back" onclick="back()">&lAarr;</div>
+            <div class="item" onclick="insert('+')">+</div>
+            <div class="item" onclick="insert('-')">-</div>
+            <div class="item" onclick="insert('7')">7</div>
+            <div class="item" onclick="insert('8')">8</div>
+            <div class="item" onclick="insert('9')">9</div>
+            <div class="item" onclick="insert('/')">/</div>
+            <div class="item" onclick="insert('4')">4</div>
+            <div class="item" onclick="insert('5')">5</div>
+            <div class="item" onclick="insert('6')">6</div>
+            <div class="item" onclick="insert('*')">*</div>
+            <div class="item" onclick="insert('1')">1</div>
+            <div class="item" onclick="insert('2')">2</div>
+            <div class="item" onclick="insert('3')">3</div>
+            <div class="item" onclick="insert('.')">.</div>
+            <div class="item" onclick="insert('(')">(</div>
+            <div class="item zero"onclick="insert('0')">0</div>
+            <div class="item" onclick="insert(')')">)</div>
+            <div class="item equal" onclick="equal()">=</div>
+        </div>
+        
+
+
+        
+        <script>
+            function insert(num){
+                document.form.textview.value = 
+                document.form.textview.value + num;
+            }
+
+            function clean(){
+                document.form.textview.value = "";
+            }
+
+            function back(){
+                var exp = document.form.textview.value;
+                document.form.textview.value = exp.substring(0,exp.length -1);
+            }
+            function equal(){
+                var exp = document.form.textview.value;
+                if(exp){
+                 document.form.textview.value = eval(exp);
+                }
+            }
+            function checkPhoneKey(key){
+                if (event.code == 'Enter' || event.code == 'NumpadEnter'){
+                    equal()
+                }
+                if (event.code == 'Delete'){
+                    clean()
+                }
+                return (key >= '0' && key <= '9') || key == '+' || key == '(' || key == ')' || key == '-' || key == '*' || key == '/' || key == 'ArrowLeft' || key == 'ArrowRight' || key == '.' || key == 'Backspace';
+
+            }
+            
+        </script>
+    </body>
+</html>
