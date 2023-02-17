@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Творческая практика!
+        </title>
+        <link href="C.P.Styles/C.P.-2.css" rel="stylesheet" >
+    </head>
+    <body>
+        <h1>Угадай число!</h1>
+
+        <p class="hypothesis"></p>
+        <p class="LowNumberOrHighNumber"></p>
+        
+        <p class="result"></p>
+
+        <label for="inputLine">Введите предполагаемое число! </label><input type="text" id="inputLine" class="inputLine">
+        <input type="submit" value="Ввести предполагаемое число!" class="hypothesisAdd">
+
+        <script>
+
+var numberRan = Math.floor(Math.random()*100) + 1; //рандомное число
+var hypothesis = document.querySelector('.hypothesis'); //возвращает первый элемент документа,предположение
+
+
+var numberofhypothesis = 1;   //количество предположений
+var result = document.querySelector('.result'); //  результат
+var LowNumberOrHighNumber = document.querySelector('.LowNumberOrHighNumber'); //число меньше созданного
+
+var inputLine = document.querySelector('.inputLine'); // вводимое число игроком
+var hypothesisAdd = document.querySelector('.hypothesisAdd');
+
+
+function CheckHypothesis ()
+{
+var PlayerHypothesis = Number(inputLine.value);
+if (numberofhypothesis === 1)
+{
+    hypothesis.textContent = 'Прошлое предположение :';
+}
+hypothesis.textContent += PlayerHypothesis + ' ';
+
+if(PlayerHypothesis === numberRan)
+{
+    result.textContent = "Вы угадали!";
+    result.style.backgroundColor = 'green';
+    LowNumberOrHighNumber.textContent = '';
+    
+    EndOfTheGame();
+}else{
+
+    result.textContent = 'Не угадали!';
+    result.style.backgroundColor = 'red';
+    if(PlayerHypothesis < numberRan)
+    {
+        LowNumberOrHighNumber.textContent = 'Слишком маленькое число!';
+    } else if(PlayerHypothesis > numberRan)
+    {
+        LowNumberOrHighNumber.textContent = 'Слишком большое число!';
+    }
+    
+}
+numberofhypothesis ++;
+inputLine.value = '';
+inputLine.focus();  //Когда элемент находится в фокусе, он перехватывает и обрабатывает события клавиатуры.
+
+
+
+
+}
+hypothesisAdd.addEventListener('click',CheckHypothesis);
+
+function EndOfTheGame()
+{
+    inputLine.Disabled = true;
+    hypothesisAdd.Disabled = true;
+}
+        </script>
+
+
+    </body>
+</html>
