@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>DrawLite</title>
+    
+	
+	
+    
+</head>
+
+<style>
+	.colorCell {
+    width: 30px;
+    height: 30px;
+    box-sizing: border-box;
+}
+
+.canvasDiv {
+    width: 540;
+    display: inline-block;
+    padding: 20px;
+}  
+
+.toolsDiv {
+    width: auto;
+    display: inline-block;
+    margin: auto;
+    padding: 20px 10px 20px 10px;
+    vertical-align: top;
+}
+
+</style>
+
+
+<body onload="main_load();">
+    
+        <div style="text-align: center;">
+            <h1>Мини графический редактор.</h1>
+        </div>
+
+         <div class="canvasDiv">
+                <canvas id="canvas" width="840" height="500"
+                    style="border: 1px solid #000000; background-color: #ffffff;">
+                </canvas>
+         </div>
+			
+		<div class="toolsDiv">
+			<table>
+				<tr>
+				 <td class = "colorCell" style="background-color:#000000;"> 
+				 </td>
+				 <td class = "colorCell" style="background-color:hsl(0, 1%, 31%);"> 
+				</td>
+				 
+				 <td class = "colorCell" style="background-color:red;"> 
+				 </td>
+				 <td class = "colorCell" style="background-color:#ca5721;"> 
+				</td>
+			     
+				 <td class = "colorCell" style="background-color:green;"> 
+				 </td>
+
+				 <td class = "colorCell" style="background-color:hsl(167, 82%, 35%);"> 
+				</td>
+				<td class = "colorCell" style="background-color:#00d9ff;"> 
+				</td>
+				 
+				 <td class = "colorCell" style="background-color:blue;"> 
+				 </td>
+				 <td class = "colorCell" style="background-color:#090125;"> 
+				</td>
+				</tr>
+				
+				<tr>
+				 <td class = "colorCell" style="background-color:yellow;"> 
+				 </td>
+				 <td class = "colorCell" style="background-color:#505001;"> 
+				</td>
+
+				 <td class = "colorCell" style="background-color:magenta;"> 
+				 </td>
+				 <td class = "colorCell" style="background-color:#470647;"> 
+				</td>
+			     
+				 <td class = "colorCell" style="background-color:#008080;"> 
+				 </td>
+
+				 <td class = "colorCell" style="background-color:hsl(207, 74%, 41%);"> 
+				</td>
+				 
+				 <td class = "colorCell" style="background-color:hsl(101, 82%, 9%);"> 
+				 </td>
+				 <td class = "colorCell" style="background-color:#ffffff;"> 
+				</td>
+				<td class = "colorCell" style="background-color:hsl(0, 97%, 12%);"> 
+				</td>
+				</tr>
+				
+				</table>
+				<br><br>
+				<table>
+				<tr>  
+				        <td colspan="2">
+				
+							<label>Толщина линии </label>
+						</td>
+				</tr>
+				
+				<tr>  
+					<td colspan="2">
+					 <input id = "widthLine" name="thickness"
+					 type = "range" min = "1" max ="15" value ="5"
+					 class="slider">
+					</td>
+				</tr>
+				</table>
+				
+				<br><br>
+				
+				<table>
+				<tr>  
+				    <td>
+					  <button onclick="clearCanvas();"
+							class="button">Очистить</button>
+							
+					</td>
+					
+
+
+			     </tr>
+				</table>
+		
+		</div>
+		
+	<script>
+           function main_load() {
+     ctx = canvas.getContext("2d");
+
+     prevPos = [];
+	
+	// ctx.strokeStyle = "black";
+	
+	colorCells = document.getElementsByClassName("colorCell");
+
+    colorCells[0].style.border = "2px solid grey";
+	
+	ctx.lineWidth = 5; //!!!!
+	
+	for (var i = 0; i < colorCells.length; i++) {
+        colorCells[i].addEventListener('click', changeLineColor, false);
+    }
+
+     function changeLineColor(){
+		 
+			ctx.strokeStyle = this.style.backgroundColor;
+			
+			this.style.border = "2px solid grey";
+	 
+	 }
+	 
+	 function changeLineColor() {
+        for (var i = 0; i < colorCells.length; i++) {
+            colorCells[i].style.border = "none";
+        }
+
+        ctx.strokeStyle = this.style.backgroundColor;
+       
+            this.style.border = "2px solid black";
+      
+    }
+	
+	widthLine.oninput = function(){
+		ctx.lineWidth = this.value;
+	}
+	 
+	 
+   // функция запускается при нажатии клавиши мышки
+    canvas.onmousedown = function (e) {
+        canvas.onmousemove = mouseMove;
+		
+		//получаем координаты курсора мышки
+        prevPos = mouseCoords(e);
+    };
+
+   //функция запускается при отпускании клавиши мыши
+    document.onmouseup = function () {
+        canvas.onmousemove = null;
+    };
+
+	//функция возвращает координаты курсора мышки
+    function mouseCoords(e) {
+        var m = [];
+        var rect = canvas.getBoundingClientRect();
+
+        m.x = e.clientX - rect.left;
+        m.y = e.clientY - rect.top;
+
+        return m;
+    }
+
+
+	//функция запускается при перемещении мыши с нажатой клавишей мыши
+	//(много раз, в каждый момент перемещения)
+
+    function mouseMove(e) {
+		
+		//получаем координаты курсора мышки
+        mousePos = mouseCoords(e);
+
+        
+		ctx.beginPath();
+				
+        ctx.moveTo(prevPos.x, prevPos.y);
+        ctx.lineTo(mousePos.x, mousePos.y);
+        ctx.stroke();
+
+        prevPos = mousePos;
+    }
+
+ }//end function main_load()
+ 
+ function clearCanvas(){
+	 
+	 ctx = canvas.getContext("2d");
+	 
+	 width = canvas.width;
+	 height = canvas.height;
+	 
+	 ctx.clearRect(0, 0, width, height);
+	 
+ }
+        </script>
+
+		
+</body>
+
+</html>
